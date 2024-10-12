@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bé Tập Tính</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div
+      class="w-[700px] mx-auto my-[50px] p-5 rounded-[10px] shadow-lg"
+      style="box-shadow: 2px 2px 10px #888888"
+    >
+      <h2>Bé Tập Tính</h2>
+      <div class="flex justify-start items-center mb-4">
+        <label class="w-[100px]" for="firstNumber">Số thứ nhất</label>
+        <input type="text" id="firstNumber" placeholder="Nhập số thứ nhất" />
+        <div class="flex flex-col">
+          <div class="flex mb-2.5">
+            <label class="mr-5 w-[100px]"
+              ><input type="radio" name="operation" value="cong" /> Cộng</label
+            >
+            <label class="mr-5 w-[100px]"
+              ><input type="radio" name="operation" value="tru" /> Trừ</label
+            >
+          </div>
+          <div class="flex mb-2.5">
+            <label class="mr-5 w-[100px]"
+              ><input type="radio" name="operation" value="nhan" /> Nhân</label
+            >
+            <label class="mr-5 w-[100px]"
+              ><input type="radio" name="operation" value="chia" /> Chia</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-start items-center mb-4">
+        <label class="w-[100px]" for="secondNumber">Số thứ hai</label>
+        <input type="text" id="secondNumber" placeholder="Nhập số thứ hai" />
+      </div>
+      <div class="flex justify-start items-center mb-4">
+        <label class="w-[100px]" for="result">Kết quả</label>
+        <input type="text" id="result" readonly />
+        <button class="btn" onclick="calculate()">Tính</button>
+      </div>
+      <div class="text-red-500 mt-2.5 text-center" id="notification"></div>
+    </div>
+
+    <script>
+      function calculate() {
+        var firstNumber = document.getElementById("firstNumber").value;
+        var secondNumber = document.getElementById("secondNumber").value;
+        var operation = document.querySelector(
+          'input[name="operation"]:checked'
+        );
+        var resultField = document.getElementById("result");
+        var notification = document.getElementById("notification");
+
+        if (isNaN(firstNumber) || firstNumber === "") {
+          notification.innerHTML =
+            "Giá trị nhập ở ô số thứ nhất không phải là số";
+          resultField.value = "";
+          return;
+        } else if (isNaN(secondNumber) || secondNumber === "") {
+          notification.innerHTML =
+            "Giá trị nhập ở ô số thứ hai không phải là số";
+          resultField.value = "";
+          return;
+        } else if (!operation) {
+          notification.innerHTML = "Chưa chọn phép tính";
+          resultField.value = "";
+          return;
+        }
+
+        notification.innerHTML = "";
+        firstNumber = parseFloat(firstNumber);
+        secondNumber = parseFloat(secondNumber);
+        var result;
+
+        switch (operation.value) {
+          case "cong":
+            result = firstNumber + secondNumber;
+            break;
+          case "tru":
+            result = firstNumber - secondNumber;
+            break;
+          case "nhan":
+            result = firstNumber * secondNumber;
+            break;
+          case "chia":
+            if (secondNumber === 0) {
+              notification.innerHTML = "Không thể chia cho 0";
+              resultField.value = "";
+              return;
+            }
+            result = firstNumber / secondNumber;
+            break;
+          default:
+            notification.innerHTML = "Phép tính không hợp lệ";
+            result = "";
+            break;
+        }
+
+        resultField.value = result;
+      }
+    </script>
+  </body>
+</html>
